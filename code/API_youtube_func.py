@@ -94,12 +94,11 @@ def video_info_collect(vid_list, DEVELOPER_KEY):
 
 def commentThread(vid, pagetoken, DEVELOPER_KEY):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,developerKey= DEVELOPER_KEY)
-
     request = youtube.commentThreads().list(
         part="id, snippet, replies",
         maxResults=100,
         videoId=vid,
-        pageToken =pagetoken,
+        pageToken = pagetoken,
         order = 'time'
     )
     cth = request.execute()
@@ -140,7 +139,7 @@ def cid_process(resp):
                         comment.append(r['textDisplay'])
                         c_time.append(r['publishedAt'])
                         reply.append(0)
-                        c_id.append(v['snippet']['topLevelComment']['id'])
+                        c_id.append(reply_item['id'])
                         like.append(r['likeCount'])
                         ori_rep.append(v['snippet']['topLevelComment']['id'])
                 except:
