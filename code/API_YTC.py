@@ -82,7 +82,7 @@ dic = {}
 for c, st, end in zip(channel_id, st_list, end_list):
     args = EasyDict({"max_results":100, "channelId":c, "st": st, "end": end})
     while True:
-        resp = UDF.youtube_search(args, pagetoken, DEVELOPER_KEY = key)
+        resp = UDF.youtube_search_channel(args, pagetoken, DEVELOPER_KEY = key)
         npt, v_id, v_title, ch_title, time, view, like, comcnt = UDF.vid_process(resp)
         vid_list.extend(v_id)
         vtitle_list.extend(v_title)
@@ -122,10 +122,10 @@ df = df[df.commentcnt < 1000000]
 
 channel_title = '+'.join(set(chtitle_list[1:]))
 #df.to_csv(f"../data/{channel_title}_video_info_0726.csv")
-df.to_csv(f"../data/SMTOWN_video_info_0730.csv")
+df.to_csv(f"../data/SMTOWN_video_info_0___.csv")
 
 print(f"DATA SAVED ; length of data is {df.shape}")
-print("SAVED AS ../data/SMTOWN_video_info_0730.csv")
+print("SAVED AS ../data/SMTOWN_video_info_0___.csv")
 
 vid_list = df['videoid']
 
@@ -147,7 +147,7 @@ ec_t = 0
 
 
 print("START COLLECTING COMMENTS")
-for v in tqdm(vid_list[55:]): #수정완료
+for v in tqdm(vid_list):
     print(v_dict[v])
     pagetoken = ''
     try:

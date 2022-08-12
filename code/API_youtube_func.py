@@ -16,16 +16,32 @@ YOUTUBE_API_VERSION = "v3"
 
 
 #======================================================
-def youtube_search(options, pagetoken, DEVELOPER_KEY):
+def youtube_search_keyword(options, pagetoken, DEVELOPER_KEY):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = DEVELOPER_KEY)
     search_response = youtube.search().list(
-    part="id, snippet",
-    channelId=options.channelId,
-    publishedAfter=options.st,
-    publishedBefore=options.end,
-    order = 'date',
-    pageToken = pagetoken,
-    maxResults=50).execute()
+        part="id, snippet",
+        q=options.query,
+        publishedAfter=options.st,
+        publishedBefore=options.end,
+        order = 'date',
+        pageToken = pagetoken,
+        maxResults=50
+    ).execute()
+
+    return search_response
+
+
+def youtube_search_channel(options, pagetoken, DEVELOPER_KEY):
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = DEVELOPER_KEY)
+    search_response = youtube.search().list(
+        part="id, snippet",
+        channelId=options.channelId,
+        publishedAfter=options.st,
+        publishedBefore=options.end,
+        order = 'date',
+        pageToken = pagetoken,
+        maxResults=50
+    ).execute()
 
     return search_response
 
