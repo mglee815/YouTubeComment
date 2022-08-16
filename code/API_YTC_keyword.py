@@ -10,6 +10,8 @@ import API_youtube_func as UDF
 
 #=========================================
 
+FILE_NAME = "kakao_0816_2_"
+
 keys = pd.read_csv("./API_KEY.txt")
 
 keys = list(keys)
@@ -119,15 +121,12 @@ df.view  = df.view.apply(lambda x : to_int(x))
 df.video_like  = df.video_like.apply(lambda x : to_int(x))
 df.commentcnt  = df.commentcnt.apply(lambda x : to_int(x))
 
-#df = df[df.commentcnt > 100000]
-#df = df[df.commentcnt < 1000000]
 
 channel_title = '+'.join(set(chtitle_list[1:]))
-#df.to_csv(f"../data/{channel_title}_video_info_0726.csv")
-df.to_csv(f"../data/kakao_video_info_0812.csv")
+df.to_csv(f"../data/{FILE_NAME}video_info.csv")
 
 print(f"DATA SAVED ; length of data is {df.shape}")
-print("SAVED AS ../data/kakao_video_info_0812.csv")
+print(f"SAVED AS ../data/{FILE_NAME}video_info.csv")
 
 vid_list = df['videoid']
 
@@ -195,9 +194,9 @@ cdf.head(1)
 print(cdf.shape)
 
 
-cdf.to_csv(f"../data/kakao_comment_0812.csv")
+cdf.to_csv(f"../data/{FILE_NAME}comment.csv")
 
-print("CDF SAVED as ../data/kakao_comment_0812.csv")
+print(f"CDF SAVED as../data/{FILE_NAME}comment.csv")
 
 print("DONE")
 

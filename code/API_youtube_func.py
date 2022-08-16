@@ -25,7 +25,7 @@ def youtube_search_keyword(options, pagetoken, DEVELOPER_KEY):
         publishedBefore=options.end,
         order = 'date',
         pageToken = pagetoken,
-        maxResults=50
+        maxResults=100
     ).execute()
 
     return search_response
@@ -40,7 +40,7 @@ def youtube_search_channel(options, pagetoken, DEVELOPER_KEY):
         publishedBefore=options.end,
         order = 'date',
         pageToken = pagetoken,
-        maxResults=50
+        maxResults=100
     ).execute()
 
     return search_response
@@ -77,7 +77,7 @@ def vid_process(resp):
 
 def video_info_collect(vid_list, DEVELOPER_KEY):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-    vid_list = [vid_list[i:i+50] for i in range(0, len(vid_list), 50)]
+    vid_list = [vid_list[i:i+50] for i in range(0, len(vid_list), 100)]
     
     viewcnt = []
     likecnt = []
