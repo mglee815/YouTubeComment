@@ -25,7 +25,7 @@ def youtube_search_keyword(options, pagetoken, DEVELOPER_KEY):
         publishedBefore=options.end,
         order = 'date',
         pageToken = pagetoken,
-        maxResults=100
+        maxResults=50
     ).execute()
 
     return search_response
@@ -40,7 +40,7 @@ def youtube_search_channel(options, pagetoken, DEVELOPER_KEY):
         publishedBefore=options.end,
         order = 'date',
         pageToken = pagetoken,
-        maxResults=100
+        maxResults=50
     ).execute()
 
     return search_response
@@ -112,7 +112,7 @@ def commentThread(vid, pagetoken, DEVELOPER_KEY):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,developerKey= DEVELOPER_KEY)
     request = youtube.commentThreads().list(
         part="id, snippet, replies",
-        maxResults=100,
+        maxResults=50,
         videoId=vid,
         pageToken = pagetoken,
         order = 'time'

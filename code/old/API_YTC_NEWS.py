@@ -6,7 +6,7 @@ import time
 from tqdm import tqdm
 from easydict import EasyDict
 
-import API_youtube_func as UDF
+import git_folder.YouTubeComment.code.old.API_youtube_func as UDF
 
 #=========================================
 
@@ -21,15 +21,15 @@ print("================================")
 
 def generator(lst):
     yield lst[0]
-    yield lst[1]
-    yield lst[2]
-    yield lst[3]
-    yield lst[4]
-    yield lst[5]
-    yield lst[6]
-    yield lst[7]
-    yield lst[8]
-    yield lst[9]
+#    yield lst[1]
+#    yield lst[2]
+#    yield lst[3]
+#    yield lst[4]
+#    yield lst[5]
+#    yield lst[6]
+#    yield lst[7]
+#    yield lst[8]
+#    yield lst[9]
     yield "DONE"
 
 key_gen = generator(keys)
@@ -42,8 +42,8 @@ print(f"Currunt API_KEY is {key}")
 
 
 ####나중에는 직접 지정할 수 있게 만들기
-date_param = ['2019-07-20']
-channel_id = ['UCEf_Bc-KVd7onSeifS3py9g']
+date_param = ['2020-07-20']
+channel_id = ['UCTHCOPwqNfZ0uiKOvFyhGwg']
 
 
 
@@ -54,12 +54,15 @@ end_list = []
 
 
 for d in date_param:
-    date_time_str = str(d) #기준점
-    tt = 36 #몇개월 전후?
-    date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d')
+    # date_time_str = str(d) #기준점
+    # tt = 36 #몇개월 전후?
+    # date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d')
 
-    before = date_time_obj - relativedelta(months=tt) # 개월 전
-    after = date_time_obj + relativedelta(months=tt) # 개월 후
+    # before = date_time_obj - relativedelta(months=tt) # 개월 전
+    # after = date_time_obj + relativedelta(months=tt) # 개월 후
+
+    before = datetime.strptime('2020-01-03', '%Y-%m-%d')
+    after = datetime.strptime('2020-12-29', '%Y-%m-%d')
 
     #크롤링 시작 날짜 & 끝나는 날짜 정의
     start = str(before)[:10]+'T00:00:00Z'
@@ -80,7 +83,7 @@ dic = {}
 
 
 for c, st, end in zip(channel_id, st_list, end_list):
-    args = EasyDict({"max_results":100, "channelId":c, "st": st, "end": end})
+    args = EasyDict({"max_results":50, "channelId":c, "st": st, "end": end})
     while True:
         resp = UDF.youtube_search_channel(args, pagetoken, DEVELOPER_KEY = key)
         npt, v_id, v_title, ch_title, time, view, like, comcnt = UDF.vid_process(resp)
@@ -91,10 +94,9 @@ for c, st, end in zip(channel_id, st_list, end_list):
         pagetoken = npt
         if npt == '':
             break
-            
+    print(len(v_id))
 
 viewcnt, likecnt, comcnt = UDF.video_info_collect(vid_list, DEVELOPER_KEY = key)
-
 
 print("Collect Video Info")
 
@@ -117,15 +119,16 @@ df.view  = df.view.apply(lambda x : to_int(x))
 df.video_like  = df.video_like.apply(lambda x : to_int(x))
 df.commentcnt  = df.commentcnt.apply(lambda x : to_int(x))
 
-df = df[df.commentcnt > 100000]
-df = df[df.commentcnt < 1000000]
+####일정량의 댓글만 가져오도록 바꾸기
+#df = df[df.commentcnt > 100000]
+#df = df[df.commentcnt < 1000000]
 
 channel_title = '+'.join(set(chtitle_list[1:]))
 #df.to_csv(f"../data/{channel_title}_video_info_0726.csv")
-df.to_csv(f"../data/SMTOWN_video_info_0___.csv")
+df.to_csv(f"../data/NEWS_video_info_0829.csv")
 
 print(f"DATA SAVED ; length of data is {df.shape}")
-print("SAVED AS ../data/SMTOWN_video_info_0___.csv")
+print("SAVED AS ../data/NEWS_video_info_0829csv")
 
 vid_list = df['videoid']
 
@@ -194,9 +197,9 @@ print("Comments SAMPLE")
 cdf.head(1)
 
 
-cdf.to_csv(f"../data/SMTOWN_comment_Q_0730.csv")
+cdf.to_csv(f"../data/NEWS_comment_0829.csv")
 
-print("CDF SAVED as SMTOWN_comment_Q_0730.csv")
+print("CDF SAVED as ../data/NEWS_comment_0829.csv")
 
 print("DONE")
 

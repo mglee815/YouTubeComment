@@ -6,7 +6,7 @@ import time
 from tqdm import tqdm
 from easydict import EasyDict
 
-import API_youtube_func as UDF
+import git_folder.YouTubeComment.code.old.API_youtube_func as UDF
 
 #=========================================
 
